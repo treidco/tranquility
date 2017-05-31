@@ -23,6 +23,7 @@ import com.google.common.hash.Hasher
 import com.google.common.hash.Hashing
 import java.{lang => jl}
 import java.{util => ju}
+import org.joda.time.DateTime
 import scala.collection.JavaConverters._
 import scala.collection.immutable.SortedMap
 
@@ -41,14 +42,14 @@ object Partitioner
     * Helper function for use by Partitioner implementations. Computes a hash code derived from a message's
     * truncated timestamp and its dimensions.
     *
-    * @param truncatedTimestamp timestamp, truncated to indexGranularity
+    * @param truncatedDateTime timestamp, truncated to indexGranularity
     * @param dimensions         iterable of (dim name, dim value) tuples. The dim value can be a String,
     *                           Number, or Iterable of anything.
     * @return
     */
-  def timeAndDimsHashCode(truncatedTimestamp: Long, dimensions: Iterable[(String, Any)]): Int = {
+  def timeAndDimsHashCode(truncatedDateTime: DateTime, dimensions: Iterable[(String, Any)]): Int = {
     val hasher = Hashing.murmur3_32().newHasher()
-    hasher.putLong(truncatedTimestamp)
+    hasher.putLong(truncatedDateTime.getMillis)
 
     val b = SortedMap.newBuilder[String, Any] ++= dimensions
 

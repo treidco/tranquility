@@ -32,7 +32,7 @@ class InputRowPartitioner(queryGranularity: Granularity) extends Partitioner[Inp
 {
   override def partition(row: InputRow, numPartitions: Int): Int = {
     val partitionHashCode = Partitioner.timeAndDimsHashCode(
-      queryGranularity.truncate(row.getTimestampFromEpoch),
+      queryGranularity.bucketStart(row.getTimestamp),
       row.getDimensions.asScala.view map { dim =>
         dim -> row.getRaw(dim)
       }
