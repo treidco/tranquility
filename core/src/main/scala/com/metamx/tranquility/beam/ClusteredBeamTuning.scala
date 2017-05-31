@@ -18,12 +18,13 @@
  */
 package com.metamx.tranquility.beam
 
-import com.metamx.common.Granularity
 import com.metamx.common.scala.Logging
+import io.druid.java.util.common.granularity.Granularities
+import io.druid.java.util.common.granularity.Granularity
 import org.joda.time.{DateTime, Period}
 
 case class ClusteredBeamTuning(
-  segmentGranularity: Granularity = Granularity.HOUR,
+  segmentGranularity: Granularity =  Granularities.HOUR,
   warmingPeriod: Period = new Period(0),
   windowPeriod: Period = new Period("PT10M"),
   partitions: Int = 1,
