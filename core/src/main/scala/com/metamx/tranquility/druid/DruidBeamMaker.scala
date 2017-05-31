@@ -20,7 +20,6 @@ package com.metamx.tranquility.druid
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.nscala_time.time.Imports._
-import com.metamx.common.Granularity
 import com.metamx.common.scala.untyped._
 import com.metamx.common.scala.Jackson
 import com.metamx.common.scala.Logging
@@ -31,6 +30,8 @@ import com.metamx.tranquility.typeclass.ObjectWriter
 import com.twitter.util.Await
 import com.twitter.util.Future
 import io.druid.data.input.impl.TimestampSpec
+import io.druid.java.util.common.granularity.Granularities
+import io.druid.java.util.common.granularity.Granularity
 import java.{util => ju}
 import org.joda.time.chrono.ISOChronology
 import org.joda.time.DateTime
@@ -244,20 +245,24 @@ object DruidBeamMaker
     val tsUtc = new DateTime(ts.getMillis, ISOChronology.getInstanceUTC)
 
     val cycleBucket = segmentGranularity match {
-      case Granularity.SECOND => (tsUtc.minuteOfHour().get * 60 + tsUtc.secondOfMinute().get) % 900 // 900 buckets
-      case Granularity.MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 180 buckets
-      case Granularity.FIVE_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 36 buckets
-      case Granularity.TEN_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 18 buckets
-      case Granularity.FIFTEEN_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 12 buckets
-      case Granularity.HOUR => tsUtc.hourOfDay().get
-      case Granularity.SIX_HOUR => tsUtc.hourOfDay().get
-      case Granularity.DAY => tsUtc.dayOfMonth().get
-      case Granularity.WEEK => tsUtc.weekOfWeekyear().get
-      case Granularity.MONTH => tsUtc.monthOfYear().get
-      case Granularity.YEAR => tsUtc.yearOfCentury().get
+      case Granularities.SECOND => (tsUtc.minuteOfHour().get * 60 + tsUtc.secondOfMinute().get) % 900 // 900 buckets
+      case Granularities.MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 180 buckets
+      case Granularities.FIVE_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 36 buckets
+      case Granularities.TEN_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 18 buckets
+      case Granularities.FIFTEEN_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 12 buckets
+      case Granularities.HOUR => tsUtc.hourOfDay().get
+      case Granularities.SIX_HOUR => tsUtc.hourOfDay().get
+      case Granularities.DAY => tsUtc.dayOfMonth().get
+      case Granularities.WEEK => tsUtc.weekOfWeekyear().get
+      case Granularities.MONTH => tsUtc.monthOfYear().get
+      case Granularities.YEAR => tsUtc.yearOfCentury().get
       case x => throw new IllegalArgumentException("No gross firehose id hack for granularity[%s]" format x)
     }
 
     "%s-%03d-%04d".format(dataSource, cycleBucket, partition)
+  }
+
+  def widenInterval(interval: Interval): Interval = {
+    interval
   }
 }
