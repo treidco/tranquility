@@ -41,10 +41,10 @@ object SimpleEventBeamFactory
       .curator(curator)
       .discoveryPath(discoveryPath)
       .location(DruidLocation(indexService, dataSource))
-      .rollup(DruidRollup(SpecificDruidDimensions(dimensions), aggregators, QueryGranularities.MINUTE, isRollup))
+      .rollup(DruidRollup(SpecificDruidDimensions(dimensions), aggregators, Granularities.MINUTE, isRollup))
       .tuning(
         ClusteredBeamTuning(
-          segmentGranularity = Granularity.HOUR,
+          segmentGranularity = Granularities.HOUR,
           windowPeriod = new Period("PT10M"),
           partitions = 1,
           replicants = 1
