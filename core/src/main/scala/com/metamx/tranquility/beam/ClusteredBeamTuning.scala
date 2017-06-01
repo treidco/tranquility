@@ -57,7 +57,7 @@ object ClusteredBeamTuning
       * Each sub-beam will cover blocks of this size in the timeline. This controls how often segments are closed off
       * and made immutable.
       *
-      * Default is Granularity.HOUR.
+      * Default is Granularities.HOUR.
       */
     def segmentGranularity(x: Granularity) = new Builder(config.copy(segmentGranularity = x))
 
