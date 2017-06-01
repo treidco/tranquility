@@ -20,7 +20,6 @@
 package com.metamx.tranquility.javatests;
 
 import com.google.common.collect.ImmutableList;
-import com.metamx.common.Granularity;
 import com.metamx.tranquility.beam.Beam;
 import com.metamx.tranquility.beam.ClusteredBeamTuning;
 import com.metamx.tranquility.druid.DruidBeams;
@@ -28,7 +27,7 @@ import com.metamx.tranquility.druid.DruidLocation;
 import com.metamx.tranquility.druid.DruidRollup;
 import com.metamx.tranquility.samza.BeamFactory;
 import com.metamx.tranquility.typeclass.Timestamper;
-import io.druid.granularity.QueryGranularities;
+import io.druid.java.util.common.granularity.Granularities;
 import io.druid.query.aggregation.AggregatorFactory;
 import io.druid.query.aggregation.CountAggregatorFactory;
 import org.apache.curator.framework.CuratorFramework;
@@ -79,10 +78,10 @@ public class TestSamzaBeamFactory implements BeamFactory
         .curator(curator)
         .discoveryPath("/druid/discovery")
         .location(DruidLocation.create("overlord", "druid:firehose:%s", dataSource))
-        .rollup(DruidRollup.create(dimensions, aggregators, QueryGranularities.MINUTE, true))
+        .rollup(DruidRollup.create(dimensions, aggregators, Granularities.MINUTE, true))
         .tuning(
             ClusteredBeamTuning.builder()
-                               .segmentGranularity(Granularity.HOUR)
+                               .segmentGranularity(Granularities.HOUR)
                                .windowPeriod(new Period("PT10M"))
                                .build()
         )

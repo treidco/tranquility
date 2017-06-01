@@ -20,7 +20,6 @@
 package com.metamx.tranquility.test
 
 import _root_.io.druid.data.input.impl.TimestampSpec
-import _root_.io.druid.granularity.QueryGranularities
 import _root_.io.druid.query.aggregation.LongSumAggregatorFactory
 import _root_.scala.collection.JavaConverters._
 import _root_.scala.reflect.runtime.universe.typeTag
@@ -48,6 +47,7 @@ import com.metamx.tranquility.typeclass.DefaultJsonWriter
 import com.metamx.tranquility.typeclass.JavaObjectWriter
 import com.metamx.tranquility.typeclass.Timestamper
 import com.twitter.util._
+import io.druid.java.util.common.granularity.Granularities
 import java.io.ByteArrayInputStream
 import java.nio.ByteBuffer
 import java.{util => ju}
@@ -78,14 +78,14 @@ object DirectDruidTest
 
   def newBuilder(curator: CuratorFramework, timekeeper: Timekeeper): DruidBeams.Builder[SimpleEvent, SimpleEvent] = {
     val dataSource = "xxx"
-    val tuning = ClusteredBeamTuning(Granularity.HOUR, 0.minutes, 10.minutes, 1, 1, 1, 1)
+    val tuning = ClusteredBeamTuning(Granularities.HOUR, 0.minutes, 10.minutes, 1, 1, 1, 1)
     val rollup = DruidRollup(
       SpecificDruidDimensions(
         Vector("foo"),
         Vector(MultipleFieldDruidSpatialDimension("coord.geo", Seq("lat", "lon")))
       ),
       IndexedSeq(new LongSumAggregatorFactory("barr", "bar")),
-      QueryGranularities.MINUTE,
+      Granularities.MINUTE,
       true
     )
     val druidEnvironment = new DruidEnvironment(

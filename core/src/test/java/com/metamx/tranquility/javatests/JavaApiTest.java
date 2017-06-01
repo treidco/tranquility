@@ -28,7 +28,7 @@ import com.metamx.tranquility.druid.DruidSpatialDimension;
 import com.metamx.tranquility.druid.SchemalessDruidDimensions;
 import com.metamx.tranquility.druid.SpecificDruidDimensions;
 import com.metamx.tranquility.finagle.FinagleRegistryConfig;
-import io.druid.granularity.QueryGranularities;
+import io.druid.java.util.common.granularity.Granularities;
 import io.druid.query.aggregation.AggregatorFactory;
 import io.druid.query.aggregation.CountAggregatorFactory;
 import org.joda.time.Period;
@@ -52,7 +52,7 @@ public class JavaApiTest
     final DruidRollup rollup = DruidRollup.create(
         DruidDimensions.specific(dimensions),
         aggregators,
-        QueryGranularities.MINUTE,
+        Granularities.MINUTE,
         true
     );
     Assert.assertTrue(rollup.dimensions() instanceof SpecificDruidDimensions);
@@ -65,7 +65,7 @@ public class JavaApiTest
     final DruidRollup rollup = DruidRollup.create(
         DruidDimensions.schemaless(),
         aggregators,
-        QueryGranularities.MINUTE,
+        Granularities.MINUTE,
         true
     );
     Assert.assertTrue(rollup.dimensions() instanceof SchemalessDruidDimensions);
@@ -78,7 +78,7 @@ public class JavaApiTest
     final DruidRollup rollup = DruidRollup.create(
         DruidDimensions.schemalessWithExclusions(dimensions),
         aggregators,
-        QueryGranularities.MINUTE,
+        Granularities.MINUTE,
         true
     );
     Assert.assertTrue(rollup.dimensions() instanceof SchemalessDruidDimensions);
@@ -99,7 +99,7 @@ public class JavaApiTest
                            )
                        ),
         aggregators,
-        QueryGranularities.MINUTE,
+        Granularities.MINUTE,
         true
     );
     Assert.assertTrue(rollup.dimensions() instanceof SchemalessDruidDimensions);

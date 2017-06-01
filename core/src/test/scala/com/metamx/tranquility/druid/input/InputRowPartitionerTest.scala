@@ -25,7 +25,7 @@ import io.druid.data.input.impl.DimensionsSpec
 import io.druid.data.input.impl.MapInputRowParser
 import io.druid.data.input.impl.TimeAndDimsParseSpec
 import io.druid.data.input.impl.TimestampSpec
-import io.druid.granularity.QueryGranularities
+import io.druid.java.util.common.granularity.Granularities
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 import org.scalatest.ShouldMatchers
@@ -51,7 +51,7 @@ class InputRowPartitionerTest extends FunSuite with ShouldMatchers
     )
   )
 
-  val partitioner = new InputRowPartitioner(QueryGranularities.MINUTE)
+  val partitioner = new InputRowPartitioner(Granularities.MINUTE)
 
   val same = Seq(
     Dict("t" -> new DateTime("2000T00:00:03"), "foo" -> 1, "bar" -> Seq("y", "z")),

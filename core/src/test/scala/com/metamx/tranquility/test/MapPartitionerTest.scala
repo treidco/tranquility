@@ -28,7 +28,7 @@ import com.metamx.tranquility.druid.SpecificDruidDimensions
 import com.metamx.tranquility.partition.MapPartitioner
 import com.metamx.tranquility.typeclass.Timestamper
 import io.druid.data.input.impl.TimestampSpec
-import io.druid.granularity.QueryGranularities
+import io.druid.java.util.common.granularity.Granularities
 import io.druid.query.aggregation.DoubleSumAggregatorFactory
 import java.{util => ju}
 import org.joda.time.DateTime
@@ -69,7 +69,7 @@ class MapPartitionerTest extends FunSuite with Matchers
       DruidRollup(
         SpecificDruidDimensions(Seq("foo", "bar", "baz")),
         Seq(new DoubleSumAggregatorFactory("x", "xSum")),
-        QueryGranularities.MINUTE,
+        Granularities.MINUTE,
         true
       )
     )
@@ -107,7 +107,7 @@ class MapPartitionerTest extends FunSuite with Matchers
       DruidRollup(
         SpecificDruidDimensions(Seq("foo", "bar", "baz")),
         Seq(new DoubleSumAggregatorFactory("x", "xSum")),
-        QueryGranularities.MINUTE,
+        Granularities.MINUTE,
         true
       )
     )
@@ -148,7 +148,7 @@ class MapPartitionerTest extends FunSuite with Matchers
       DruidRollup(
         SpecificDruidDimensions(Seq("foo", "bar", "baz")),
         Seq(new DoubleSumAggregatorFactory("x", "xSum")),
-        QueryGranularities.MINUTE,
+        Granularities.MINUTE,
         true
       )
     )

@@ -23,7 +23,7 @@ import com.metamx.tranquility.druid.DruidRollup
 import com.metamx.tranquility.druid.SchemalessDruidDimensions
 import com.metamx.tranquility.druid.SpecificDruidDimensions
 import io.druid.data.input.impl.TimestampSpec
-import io.druid.granularity.QueryGranularities
+import io.druid.java.util.common.granularity.Granularities
 import io.druid.query.aggregation.CountAggregatorFactory
 import io.druid.query.aggregation.LongSumAggregatorFactory
 import org.scalatest.FunSuite
@@ -36,7 +36,7 @@ class DruidRollupTest extends FunSuite with Matchers
     val rollup = DruidRollup(
       SpecificDruidDimensions(Vector("hey", "what"), Vector.empty),
       Seq(new CountAggregatorFactory("heyyo")),
-      QueryGranularities.NONE,
+      Granularities.NONE,
       true
     )
     rollup.validate()
@@ -47,7 +47,7 @@ class DruidRollupTest extends FunSuite with Matchers
       DruidRollup(
         SpecificDruidDimensions(Vector("hey", "what"), Vector.empty),
         Seq(new CountAggregatorFactory("hey")),
-        QueryGranularities.NONE,
+        Granularities.NONE,
         true
       )
     }
@@ -59,7 +59,7 @@ class DruidRollupTest extends FunSuite with Matchers
       DruidRollup(
         SpecificDruidDimensions(Vector("what"), Vector.empty),
         Seq(new CountAggregatorFactory("hey"), new LongSumAggregatorFactory("hey", "blah")),
-        QueryGranularities.NONE,
+        Granularities.NONE,
         true
       )
     }
@@ -71,7 +71,7 @@ class DruidRollupTest extends FunSuite with Matchers
       DruidRollup(
         SpecificDruidDimensions(Vector("what", "what"), Vector.empty),
         Seq(new CountAggregatorFactory("hey")),
-        QueryGranularities.NONE,
+        Granularities.NONE,
         true
       )
     }
@@ -82,7 +82,7 @@ class DruidRollupTest extends FunSuite with Matchers
     val rollup = DruidRollup(
       SpecificDruidDimensions(Vector("e", "f", "a", "b", "z", "t"), Vector.empty),
       Seq(new CountAggregatorFactory("hey")),
-      QueryGranularities.NONE,
+      Granularities.NONE,
       true
     )
     rollup.dimensions.specMap.get("dimensions").asInstanceOf[java.util.List[String]].asScala should
@@ -93,7 +93,7 @@ class DruidRollupTest extends FunSuite with Matchers
     val rollup = DruidRollup(
       SpecificDruidDimensions(Seq("foo", "bar")),
       Seq(new LongSumAggregatorFactory("hey", "there")),
-      QueryGranularities.NONE,
+      Granularities.NONE,
       true
     )
     val timestampSpec = new TimestampSpec("t", "auto", null)
@@ -110,7 +110,7 @@ class DruidRollupTest extends FunSuite with Matchers
     val rollup = DruidRollup(
       SchemalessDruidDimensions(Set("qux")),
       Seq(new LongSumAggregatorFactory("hey", "there")),
-      QueryGranularities.NONE,
+      Granularities.NONE,
       true
     )
     val timestampSpec = new TimestampSpec("t", "auto", null)

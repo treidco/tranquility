@@ -37,6 +37,7 @@ import com.metamx.tranquility.typeclass.Timestamper
 import com.twitter.util.Await
 import com.twitter.util.Future
 import com.twitter.util.Promise
+import io.druid.java.util.common.granularity.Granularities
 import java.util.UUID
 import org.apache.curator.framework.CuratorFramework
 import org.joda.time.DateTime
@@ -200,7 +201,7 @@ class ClusteredBeamTest extends FunSuite with CuratorRequiringSuite with BeforeA
   }
 
   val defaultTuning = ClusteredBeamTuning(
-    segmentGranularity = Granularity.HOUR,
+    segmentGranularity = Granularities.HOUR,
     warmingPeriod = 0.minutes,
     windowPeriod = 10.minutes,
     partitions = 2,
