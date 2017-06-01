@@ -233,7 +233,9 @@ class ClusteredBeam[EventType: Timestamper, InnerBeamType <: Beam[EventType]](
                 rand.nextInt(tuning.maxSegmentsPerBeam - tuning.minSegmentsPerBeam + 1)
               val intervalToCover = new Interval(
                 timestamp.getMillis,
-                tuning.segmentGranularity.increment(timestamp, numSegmentsToCover).getMillis,
+                //TODO fix increment
+//                tuning.segmentGranularity.increment(timestamp, numSegmentsToCover).getMillis,
+                tuning.segmentGranularity.increment(timestamp).getMillis,
                 ISOChronology.getInstanceUTC
               )
               val timestampsToCover = tuning.segmentGranularity.getIterable(intervalToCover).asScala.map(_.start)
